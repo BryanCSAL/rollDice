@@ -3,10 +3,14 @@ import { View, Text, TextInput, StyleSheet, Animated } from 'react-native';
 
 import Button from './components/button';
 import D20Pic from './components/d20';
+import { useHistorico } from './HistoricoContext';
+import { useNavigation } from '@react-navigation/native';
 
 export default function D20() {
   const [num, setNum] = useState(null);
   const [mod, setMod] = useState('');
+  const { adicionarRolagem } = useHistorico();
+  const navigation = useNavigation(); 
 
   const spinValue = useRef(new Animated.Value(0)).current;
 
@@ -28,6 +32,11 @@ export default function D20() {
     const modificador = parseInt(mod) || 0;
     const randomNum = Math.floor(Math.random() * 20) + 1 + modificador;
     setNum(randomNum);
+    adicionarRolagem('D20', randomNum);
+  };
+
+  const acessarTela = (nomeTela) => {
+    navigation.navigate(nomeTela);
   };
 
   return (
@@ -54,6 +63,12 @@ export default function D20() {
             handlePress();
             girarDado();
           }}
+          style={{ backgroundColor: 'black', marginBottom: 10 }}
+          textStyle={{ fontSize: 20 }}
+        />
+        <Button
+          title="Histórico"
+          onPress={() => acessarTela('Historico')}
           style={{ backgroundColor: 'black', marginBottom: 10 }}
           textStyle={{ fontSize: 20 }}
         />
