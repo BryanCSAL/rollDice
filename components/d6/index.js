@@ -1,6 +1,6 @@
 import { Image } from 'react-native';
 
-export default function D6Pic() { // ← trocado aqui
+export default function D6Pic() {
   return (
     <Image 
       source={require("./Dice6.png")} 

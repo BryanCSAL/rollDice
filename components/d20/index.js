@@ -1,6 +1,6 @@
 import { Image } from 'react-native';
 
-export default function D20Pic() { // ← trocado aqui
+export default function D20Pic() {
   return (
     <Image 
       source={require("./Dice20.png")} 

@@ -2,11 +2,15 @@ import React, { useState, useRef } from 'react';
 import { View, Text, TextInput, StyleSheet, Animated } from 'react-native';
 
 import Button from './components/button';
-import D20Pic from './components/d8';
+import D8Pic from './components/d8';
+import { useHistorico } from './HistoricoContext';
+import { useNavigation } from '@react-navigation/native';
 
 export default function D8() {
   const [num, setNum] = useState(null);
   const [mod, setMod] = useState('');
+  const { adicionarRolagem } = useHistorico();
+  const navigation = useNavigation(); 
 
   const spinValue = useRef(new Animated.Value(0)).current;
 
@@ -28,12 +32,17 @@ export default function D8() {
     const modificador = parseInt(mod) || 0;
     const randomNum = Math.floor(Math.random() * 8) + 1 + modificador;
     setNum(randomNum);
+    adicionarRolagem('D8', randomNum);
+  };
+
+  const acessarTela = (nomeTela) => {
+    navigation.navigate(nomeTela);
   };
 
   return (
     <View style={{ flex: 1, alignItems: 'center', marginTop: 50 }}>
       <Animated.View style={{ transform: [{ rotate: spin }] }}>
-        <D20Pic />
+        <D8Pic />
       </Animated.View>
 
       <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 20 }}>
@@ -54,6 +63,12 @@ export default function D8() {
             handlePress();
             girarDado();
           }}
+          style={{ backgroundColor: 'black', marginBottom: 10 }}
+          textStyle={{ fontSize: 20 }}
+        />
+        <Button
+          title="Histórico"
+          onPress={() => acessarTela('Historico')}
           style={{ backgroundColor: 'black', marginBottom: 10 }}
           textStyle={{ fontSize: 20 }}
         />
